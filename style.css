@@ -15,7 +15,15 @@ html{
     border-width: 2px;
 }
 
-.price{
+.card div{
+    transition: all ease 500ms;
+}
+
+.card div.hide{
+    display: none;
+}
+
+.price, .pricecart{
     font-size: 20px;
     float: right;
 }
@@ -106,6 +114,54 @@ h1{
 }
 
 .goback{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: #d4f5ff;
+    background-color: #1c424d;
+}
+
+.merchandise{
+    background: rgb(72, 112, 122);
+    width: 500px;
+    padding: 10px;
+    border-radius: 15px;
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+}
+
+.remove{
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: #d4f5ff;
+    background-color: #1c424d;
+}
+
+#cartitems{
+    display: none;
+}
+
+.cost{
+    display: none;
+}
+
+.gofromcart{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: #d4f5ff;
+    background-color: #1c424d;
+    display: none;
+}
+
+.carttitle{
+    display: none;
+}
+
+#searchfield{
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     color: #d4f5ff;
