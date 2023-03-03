@@ -9,6 +9,7 @@ let searchContent = document.getElementById('searchcontent');
 let cost = document.querySelector(".cost");
 
 
+
 searchField.addEventListener('input', function(){
     if(searchField.value != ""){
     fetch("https://dummyjson.com/products/search?q=" + searchField.value).then(res => res.json())
@@ -78,8 +79,8 @@ function searchProducts(json){
         }
         content.innerHTML += '<br><br><br>';
     }
+    
     document.querySelectorAll(".buy").forEach(el =>
-        
         el.addEventListener("click", function(){
             for(let product of json.products){
                 if(product.id == el.dataset.id){
@@ -87,7 +88,7 @@ function searchProducts(json){
                     <div class="merchandise">
                         <h3>Название: ${product.title}</h3>
                         <img class="image" src="${product.thumbnail}">
-                        <span class="pricecart">${product.price}<span>$</span></span>
+                        <span class="pricecart">${product.price}</span>
                         <button class="remove" dataset="${product.id}">-</button>
                     </div>
                     <br><br><br>
@@ -105,6 +106,15 @@ function searchProducts(json){
         document.querySelector('.gofromcart').style.display = 'block';
         document.querySelector('.cost').style.display = 'block';
         searchField.style.display = 'none';
+
+        let price = document.querySelectorAll(".pricecart");
+        let total = 0;
+        
+        for(let i = 0; i < price.length; i++){
+            total += Number(price[i].innerText);
+        }
+
+        cost.innerHTML = `Total price == ${total}$`
 
         document.querySelectorAll(".remove").forEach(el =>
             el.addEventListener("click", function(){
@@ -153,11 +163,10 @@ function descriptionOfProducts(json){
                         <div class="merchandise">
                         <h3>Название: ${product.title}</h3>
                         <img class="image" src="${product.thumbnail}">
-                        <span class="pricecart">${product.price}<span>$</span></span>
+                        <span class="pricecart">${product.price}</span>
                         <button class="remove" dataset="${product.id}">-</button>
                         </div>
                         <br><br><br>`;
-                        
                     })
                     
                     let goBackButton = document.querySelector('.goback');
