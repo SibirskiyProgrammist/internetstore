@@ -9,7 +9,6 @@ let searchContent = document.getElementById('searchcontent');
 let cost = document.querySelector(".cost");
 
 
-
 searchField.addEventListener('input', function(){
     if(searchField.value != ""){
     fetch("https://dummyjson.com/products/search?q=" + searchField.value).then(res => res.json())
@@ -52,9 +51,9 @@ function jsonSearch(){
 
 jsonSearch();
 
-function searchProducts(json){
+function searchProducts(data){
     let categories = [];
-    for(let product of json.products){
+    for(let product of data.products){
         if(categories.indexOf(product['category']) == -1){
             categories.push( product['category']);
         }
@@ -63,7 +62,7 @@ function searchProducts(json){
     // console.log(categories);
     for(let category of categories){
         content.innerHTML += `<h1>${category.toUpperCase()}</h1>`;
-        for(let product of json.products){
+        for(let product of data.products){
             if(category != product.category) {continue;}
             content.innerHTML += `
                 <div class="card">
@@ -79,61 +78,45 @@ function searchProducts(json){
         }
         content.innerHTML += '<br><br><br>';
     }
-    
-    document.querySelectorAll(".buy").forEach(el =>
+
+    let buttons = document.querySelectorAll(".buy");
+    buttons.forEach(el =>
         el.addEventListener("click", function(){
-            for(let product of json.products){
-                if(product.id == el.dataset.id){
-                    cartitems.innerHTML += `
-                    <div class="merchandise">
-                        <h3>Название: ${product.title}</h3>
-                        <img class="image" src="${product.thumbnail}">
-                        <span class="pricecart">${product.price}</span>
-                        <button class="remove" dataset="${product.id}">-</button>
-                    </div>
-                    <br><br><br>
-                    `;
+            fetch('https://dummyjson.com/carts/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: 1,
+                    products: [{}]
+                })
+            })
+            .then(res => res.json())
+            .then(json => {
+                for(let item of data.products){
+                    if(item.id == el.dataset.id){
+                        json.products.push({id: Number(el.dataset.id), title: `${item.title}`, price: item.price, total: item.stock, rating: item.rating},)
+
+                        fetch("https://dummyjson.com/carts/1", {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                merge: true,
+                                products: json.products,
+                            })
+                            })
+                        .then(res => res.json())
+                        .then(json => {
+                            console.log(json)
+                        })
+                        .catch(err => console.log(err));
+                    }
                 }
-            }
+            })
+            .catch(err => console.log(err));
         })
     )
-
-    cartButton.addEventListener("click", function(){
-        content.style.display = "none";
-        cart.style.display = "inline-block";
-        document.querySelector('#cart').style.display = 'none';
-        document.querySelector('.carttitle').style.display = 'block';
-        document.querySelector('.gofromcart').style.display = 'block';
-        document.querySelector('.cost').style.display = 'block';
-        searchField.style.display = 'none';
-
-        let price = document.querySelectorAll(".pricecart");
-        let total = 0;
-        
-        for(let i = 0; i < price.length; i++){
-            total += Number(price[i].innerText);
-        }
-
-        cost.innerHTML = `Total price == ${total}$`
-
-        document.querySelectorAll(".remove").forEach(el =>
-            el.addEventListener("click", function(){
-                    el.closest('div').remove();
-                }
-            )
-        )
-        
-        document.querySelector('.gofromcart').addEventListener("click", function(){
-            cart.style.display = "none";
-            document.querySelector('#cart').style.display = 'flex';
-            document.querySelector('.cost').style.display = 'none';
-            document.querySelector('.carttitle').style.display = 'none';
-            document.querySelector('.gofromcart').style.display = 'none';
-            content.style.display = "block";
-            searchField.style.display = "block";
-        })
-    })
 }
+
 
 function descriptionOfProducts(json){
     let card = document.querySelectorAll('.card');
@@ -158,16 +141,16 @@ function descriptionOfProducts(json){
                     <button class="buyproduct" dataset="${product.id}">Купить</button>
                     </div>`;
 
-                    document.querySelector('.buyproduct').addEventListener("click", function(){
-                        cart.innerHTML += `
-                        <div class="merchandise">
-                        <h3>Название: ${product.title}</h3>
-                        <img class="image" src="${product.thumbnail}">
-                        <span class="pricecart">${product.price}</span>
-                        <button class="remove" dataset="${product.id}">-</button>
-                        </div>
-                        <br><br><br>`;
-                    })
+                    // document.querySelector('.buyproduct').addEventListener("click", function(){
+                    //     cart.innerHTML += `
+                    //     <div class="merchandise">
+                    //     <h3>Название: ${product.title}</h3>
+                    //     <img class="image" src="${product.thumbnail}">
+                    //     <span class="pricecart">${product.price}</span>
+                    //     <button class="remove" dataset="${product.id}">-</button>
+                    //     </div>
+                    //     <br><br><br>`;
+                    // })
                     
                     let goBackButton = document.querySelector('.goback');
                     goBackButton.addEventListener("click", function(){
