@@ -40,11 +40,6 @@ html{
     background-color: #1c424d;
 }
 
-.goback{
-    position: absolute;
-    margin-left: 225px;
-}
-
 .imagedesc{
     margin-top: 30px;
     border-radius: 5px;
@@ -158,13 +153,19 @@ h1{
     display: none;
 }
 
-.carttitle{
-    display: none;
-}
-
 #searchfield{
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     color: #d4f5ff;
     background-color: #1c424d;
+}
+
+.link{
+    margin-right: 5px;
+    text-decoration: none;
+    color: #aaa;
+    background-color: rgb(49, 49, 49);
+    border-radius: 2px;
+    border-color: #fff;
+    border-width: 2px;
 }

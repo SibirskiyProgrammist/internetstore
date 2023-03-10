@@ -11,16 +11,47 @@
     <title>Document</title>
 </head>
 <body>
-    <input type="text" id="searchfield" placeholder="Enter a product: ">
+    <div style="display: flex;">
+        <input type="text" id="searchfield" placeholder="Enter a product: " style="margin-right: 5px;">
+        <a href="#" class="link" id="loginlink">Авторизация</a>
+        <a href="#" class="link" id="authlink">Регистрация</a>
+    </div>
+
+    <button class="goback" style="display: none;">Go back</button>
+
+    <div class="auth" style="display: none;">
+        <h1>Регистрация</h1>
+        <h3>Введите логин: </h3>
+        <input type="text" placeholder="Введите логин: " id="authField">
+        <h3>Введите пароль: </h3>
+        <input type="password" placeholder="Введите пароль: " id="authPasswordField">
+        <button class="createaccount">Зарегистрироваться!</button>
+    </div>
+
+    <div class="login" style="display: none;">
+        <h1>Авторизация</h1>
+        <h3>Введите логин: </h3>
+        <input type="text" placeholder="Введите логин: " id="loginField">
+        <h3>Введите пароль: </h3>
+        <input type="text" placeholder="Введите пароль: " id="loginPasswordField">
+        <button>Войти!</button>
+    </div>
+
     <a href="#" id="cart"><img src="img/cart.png" alt="Text"></a>
+
     <div id="content">
     </div>
+
     <div id="searchcontent"></div>
-    <h1 class="carttitle">CART</h1>
+
     <button class="gofromcart">Go back</button>
+
     <div id="cartitems"> 
     </div>
+
     <h3 class="cost"></h3>
-    <script src="script.js"></script>
+
+    <script src="items.js"></script>
+    <script src="auth.js"></script>
 </body>
 </html>
